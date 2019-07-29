@@ -1,4 +1,6 @@
 defmodule User do
+  @fictional_names ["Black Panther", "Wonder Woman", "Spiderman"]
+
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -14,7 +16,6 @@ defmodule User do
     |> validate_fictional_name()
   end
 
-  @fictional_names ["Black Panther", "Wonder Woman", "Spiderman"]
   def validate_fictional_name(changeset) do
     name = get_field(changeset, :name)
 
@@ -26,18 +27,18 @@ defmodule User do
   end
 
   def set_name_if_anonymous(changeset) do
-  name = get_field(changeset, :name)
+    name = get_field(changeset, :name)
 
-  if is_nil(name) do
-    put_change(changeset, :name, "Anonymous")
-  else
-    changeset
+    if is_nil(name) do
+      put_change(changeset, :name, "Anonymous")
+    else
+      changeset
+    end
   end
-end
 
-def registration_changeset(struct, params) do
-  struct
-  |> cast(params, [:name])
-  |> set_name_if_anonymous()
-end
+  def registration_changeset(struct, params) do
+    struct
+    |> cast(params, [:name])
+    |> set_name_if_anonymous()
+  end
 end
